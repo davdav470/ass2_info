@@ -1,0 +1,101 @@
+################################################################################
+# Author:      Info2 Tutors
+# MatNr:       -
+# File:        pyproject.toml
+# Description: This file contains all the relevant package information.
+# Comments:    DO NOT modify! But have a look at it, to get an understanding
+#              what tools and rules are used during testing.
+################################################################################
+
+[tool.poetry]
+name = "assignment2"
+version = "0.0.0"
+description = ""
+license = "MIT"
+authors = ["Me <poetrywillnotworkifyoudontspecifyanauthor@email.com>"]
+packages = [
+    { include = "assignment2" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "8.0.1"
+black = "24.2.0"
+mypy = "1.8.0"
+ruff = "0.2.2"
+pytest-json = "^0.4.0"
+pytest-html = "^4.1.1"
+matplotlib = "^3.8.4"
+plotly = "^5.22.0"
+numpy = "^1.26.4"
+pandas = "^2.2.2"
+pandas-stubs = "^2.2.2"
+scikit-learn = "^1.4.2"
+scipy = "^1.13.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+target-version = ["py312"]
+
+[tool.ruff]
+# see https://beta.ruff.rs/docs/rules for detailed explanations of the selected rules
+lint.select = [
+    "F",       # Pyflakes: avoid common error sources
+    "E",       # pycodestyle errors: check PEP8 style conformity
+    "W",       # pycodestyle warnings: more PEP8 conformity
+    "I",       # isort: adhere to import block order conventions
+    "N",       # pep8-naming: check PEP8 naming conventions
+    "UP",      # pyupgrade: replace outdated syntax and functionality
+    "BLE",     # flake8-blind-except: detect unspecific except-statements
+    "FBT",     # flake8-boolean-trap: force boolean arguments to be specified by keyword
+    "B",       # flake8-bugbear: find likely bugs and design problems
+    "A",       # flake8-builtins: disallow overwriting builtin names
+    "ISC",     # flake8-implicit-str-concat: make concatenated string literals prettier
+    "ICN",     # flake8-import-conventions: use conventional aliases like np or pd
+    "PIE",     # flake8-pie: a few small bug sources and simplifications
+    "PT",      # flake8-pytest-style: best practices for pytest
+    "RSE",     # flake8-raise: style nitpicking for raise statements
+    "RET",     # flake8-return: simplify return statements
+    "SLF",     # flake8-self: disallow accessing non-public members of other classes
+    "SIM115",  # always use a context handler to open files
+    "TID",     # flake8-tidy-imports: require local imports to be absolute
+    "ARG",     # flake8-unused-arguments: detect unused function arguments
+    "PTH",     # flake8-use-pathlib: suggest pathlib functionality to replace os
+    "PGH",     # pygrep-hooks: disallow broad linter ignores
+    "PLC",     # pylint convention: some basic simplifications
+    "PLE",     # pylint error: detect a few possible error sources
+    "PLW0603", # pylint warning: disallow the global statement
+    "NPY",     # numpy specific rules
+    "RUF",     # ruff specific rules: misc best practices
+]
+fix = true
+lint.fixable = ["I"]
+lint.ignore = ["E501", "E741"]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/*" = ["SLF"]
+"__init__.py" = ["F401"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+disallow_any_explicit = true
+disallow_any_generics = true
+disallow_untyped_defs = true
+warn_redundant_casts = true
+warn_unreachable = true
+warn_unused_ignores = true
+strict_equality = true
+pretty = true
+exclude = "(tests/.*|.*tests/.*)"
