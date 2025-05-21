@@ -1,0 +1,32 @@
+{
+  "name": "Python ML DevContainer",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+
+  "features": {
+    "ghcr.io/devcontainers/features/poetry:1": {}
+  },
+
+  "postCreateCommand": "poetry install",
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": true
+        }
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "ms-python.black-formatter",
+        "ms-python.mypy-type-checker"
+      ]
+    }
+  },
+
+  "forwardPorts": [8888],
+  "remoteUser": "vscode"
+}
