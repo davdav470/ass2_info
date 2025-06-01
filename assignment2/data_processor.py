@@ -28,14 +28,14 @@ class DatasetPreprocessor:
         df['Diagnosis'] = df['Diagnosis'].map({'M': 1, 'B': 0})  # 'M' = bösartig (1), 'B' = gutartig (0)
         return df
 
-    def save_to_csv(self, df):
+    def to_csv(self, df):
         df.to_csv(self.output_file, index=False)
         print(f"Daten gespeichert in {self.output_file}")
 
     def run(self):
         df = self.load_data()
         df = self.preprocess(df)
-        self.save_to_csv(df)
+        self.to_csv(df)
 
 
 if __name__ == "__main__":
