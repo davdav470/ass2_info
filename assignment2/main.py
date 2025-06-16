@@ -8,7 +8,7 @@ def main():
     # === 1. Pfad zur ZIP-Datei
     zip_path = "breast_cancer_wisconsin_diagnostic.zip"
 
-    output_csv_path = "ass2_info/dataset.csv"
+    output_csv_path = "dataset.csv"
 
     # === 2. Daten vorbereiten ===
     preprocessor = DatasetPreprocessor(zip_file_path=zip_path)

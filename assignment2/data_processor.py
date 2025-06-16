@@ -16,7 +16,8 @@ class DatasetPreprocessor:
             zip_ref.extractall("temp_extracted")
 
         # Annahme: Datei heißt so im ZIP
-        file_path = os.path.join("temp_extracted", "data.csv")
+        csv_filename = "wdbc.data"  # Passe das an den tatsächlichen Dateinamen an
+        file_path = os.path.join("temp_extracted", csv_filename)
         df = pd.read_csv(file_path)
 
         if 'id' in df.columns:
