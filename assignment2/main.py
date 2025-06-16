@@ -3,16 +3,23 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from data_processor import DatasetPreprocessor
 from SimpleBaselineClassifier import SimpleBaselineClassifier
+import os
+
 
 def main():
-    # === 1. Pfad zur ZIP-Datei
-    zip_path = "breast_cancer_wisconsin_diagnostic.zip"
 
-    output_csv_path = "ass2_info/dataset.csv"
+    # Verzeichnis der aktuellen Datei (main.py)
+    CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    zip_path = os.path.join(base_dir, "breast_cancer_wisconsin_diagnostic.zip")
+    output_csv_path = os.path.join(base_dir, "dataset.csv")  # oder ass2_info/dataset.csv, je nachdem wohin du willst
+
 
     # === 2. Daten vorbereiten ===
     preprocessor = DatasetPreprocessor(zip_file_path=zip_path)
     preprocessor.to_csv(csv_file_path=output_csv_path)
+
 
     # === 3. CSV laden ===
     df = pd.read_csv(output_csv_path)

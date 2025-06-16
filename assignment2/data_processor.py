@@ -1,38 +1,42 @@
+import zipfile
 import os
 import pandas as pd
-import zipfile
-from typing import Optional
-
 
 class DatasetPreprocessor:
     def __init__(self, zip_file_path: str):
-        """
-        Extracts ZIP, preprocesses dataset, stores it internally.
-        """
-        self.zip_file_path = zip_file_path
-        self._data: Optional[pd.DataFrame] = None
+        self.extract_dir = "temp_extracted"
 
+        # ZIP-Datei entpacken
         with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-            zip_ref.extractall("temp_extracted")
+            zip_ref.extractall(self.extract_dir)
+            print("Dateien im ZIP:", zip_ref.namelist())  # Debug-Ausgabe
 
-        # Annahme: Datei heißt so im ZIP
-        file_path = os.path.join("temp_extracted", "data.csv")
-        df = pd.read_csv(file_path)
+            # Suche nach der ersten .csv oder .data Datei
+            for name in zip_ref.namelist():
+                if name.endswith('.csv') or name.endswith('.data'):
+                    self.data_file_path = os.path.join(self.extract_dir, name)
+                    break
+            else:
+                raise FileNotFoundError("Keine .csv oder .data Datei im ZIP gefunden.")
 
-        if 'id' in df.columns:
-            df = df.drop(columns=['id'])
+        print(f"Datenpfad gesetzt: {self.data_file_path}")
 
-        df = df.dropna()
+        # Daten einlesen (ohne Header)
+        self.df = pd.read_csv(self.data_file_path, header=None)
 
-        if 'diagnosis' in df.columns and df.columns[-1] != 'diagnosis':
-            target = df['diagnosis']
-            df = df.drop(columns=['diagnosis'])
-            df['diagnosis'] = target
+        # Spaltennamen setzen laut Dokumentation
+        self.df.columns = [
+            "id", "diagnosis",
+            "radius_mean", "texture_mean", "perimeter_mean", "area_mean", "smoothness_mean",
+            "compactness_mean", "concavity_mean", "concave_points_mean", "symmetry_mean", "fractal_dimension_mean",
+            "radius_se", "texture_se", "perimeter_se", "area_se", "smoothness_se",
+            "compactness_se", "concavity_se", "concave_points_se", "symmetry_se", "fractal_dimension_se",
+            "radius_worst", "texture_worst", "perimeter_worst", "area_worst", "smoothness_worst",
+            "compactness_worst", "concavity_worst", "concave_points_worst", "symmetry_worst", "fractal_dimension_worst"
+        ]
 
-        self._data = df
+        # Entferne die ID-Spalte, da sie keine sinnvolle Information für ML enthält
+        self.df.drop(columns=["id"], inplace=True)
 
-    def to_csv(self, csv_file_path: str) -> None:
-        if self._data is None:
-            raise ValueError("No data loaded.")
-
-        self._data.to_csv(csv_file_path, index=False)
+    def to_csv(self, csv_file_path: str):
+        self.df.to_csv(csv_file_path, index=False)
