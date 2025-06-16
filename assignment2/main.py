@@ -11,7 +11,7 @@ import os
 def main():
     base_dir = os.path.dirname(os.path.abspath(__file__))
     zip_path = os.path.join(base_dir, "breast_cancer_wisconsin_diagnostic.zip")
-    output_csv_path = os.path.join(base_dir, "dataset.csv")  # oder ass2_info/dataset.csv, je nachdem wohin du willst
+    output_csv_path = os.path.join(base_dir, "dataset.csv")
 
     # Überprüfen, ob die ZIP-Datei existiert
     if not os.path.exists(zip_path):
