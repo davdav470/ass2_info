@@ -7,14 +7,13 @@ import os
 
 
 def main():
-
     # Verzeichnis der aktuellen Datei (main.py)
     CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-
     base_dir = os.path.dirname(os.path.abspath(__file__))
     zip_path = os.path.join(base_dir, "breast_cancer_wisconsin_diagnostic.zip")
     output_csv_path = os.path.join(base_dir, "dataset.csv")  # oder ass2_info/dataset.csv, je nachdem wohin du willst
 
+    output_csv_path = "dataset.csv"
 
     # === 2. Daten vorbereiten ===
     preprocessor = DatasetPreprocessor(zip_file_path=zip_path)
@@ -48,5 +47,5 @@ def main():
     print(f"Accuracy: {accuracy:.4f}")
     print(f"First 10 Predictions: {y_pred[:10]}")
 
-if __name__ == "__main__":
-    main()
+    if __name__ == "__main__":
+        main()
