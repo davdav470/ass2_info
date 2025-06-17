@@ -38,5 +38,14 @@ class DatasetPreprocessor:
         # Entferne die ID-Spalte, da sie keine sinnvolle Information für ML enthält
         self.df.drop(columns=["id"], inplace=True)
 
+        # Zielvariable (diagnosis) in binäre Zahlen umwandeln: M → 1, B → 0
+        self.df["diagnosis"] = self.df["diagnosis"].map({"M": 1, "B": 0})
+        if self.df["diagnosis"].isnull().any():
+            raise ValueError("❌ Ungültige Werte in der Spalte 'diagnosis' gefunden.")
+
+        # diagnosis-Spalte ans Ende verschieben
+        diagnosis = self.df.pop("diagnosis")
+        self.df["diagnosis"] = diagnosis
+        
     def to_csv(self, csv_file_path: str):
         self.df.to_csv(csv_file_path, index=False)
