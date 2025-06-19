@@ -9,7 +9,7 @@ class DatasetPreprocessor:
         # ZIP-Datei entpacken
         with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
             zip_ref.extractall(self.extract_dir)
-            print("📁 Dateien im ZIP:", zip_ref.namelist())  # Debug-Ausgabe
+            print("Dateien im ZIP:", zip_ref.namelist())  # Debug-Ausgabe
 
             # Suche nach der ersten .csv oder .data Datei
             for name in zip_ref.namelist():
@@ -17,9 +17,9 @@ class DatasetPreprocessor:
                     self.data_file_path = os.path.join(self.extract_dir, name)
                     break
             else:
-                raise FileNotFoundError("❌ Keine .csv oder .data Datei im ZIP gefunden.")
+                raise FileNotFoundError("Keine .csv oder .data Datei im ZIP gefunden.")
 
-        print(f"✅ Datenpfad gesetzt: {self.data_file_path}")
+        print(f"Datenpfad gesetzt: {self.data_file_path}")
 
         # Daten einlesen (ohne Header)
         self.df = pd.read_csv(self.data_file_path, header=None)
@@ -41,7 +41,7 @@ class DatasetPreprocessor:
         # Zielvariable (diagnosis) in binäre Zahlen umwandeln: M → 1, B → 0
         self.df["diagnosis"] = self.df["diagnosis"].map({"M": 1, "B": 0})
         if self.df["diagnosis"].isnull().any():
-            raise ValueError("❌ Ungültige Werte in der Spalte 'diagnosis' gefunden.")
+            raise ValueError("Ungültige Werte in der Spalte 'diagnosis' gefunden.")
 
         # diagnosis-Spalte ans Ende verschieben
         diagnosis = self.df.pop("diagnosis")
