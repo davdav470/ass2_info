@@ -1,3 +1,15 @@
+################################################################################
+# Author 1:      Alina Grundner  
+# MatNr 1:       12331261
+# Author 2:      David Leibold 
+# MatNr 2:       12335498
+# Author 3:      Lukas Umfahrer
+# MatNr 3:       12337160
+# File:          SimpleBaselineClassifier.py
+# Description: the code for the class SimpleBaselineClassifier
+# Comments:    ... comments for the tutors ...
+#              ... can be multiline ...
+################################################################################
 import numpy as np
 
 class SimpleBaselineClassifier:
