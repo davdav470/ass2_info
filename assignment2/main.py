@@ -1,6 +1,20 @@
-from pathlib import Path
-import matplotlib.pyplot as plt
+################################################################################
+# Author 1:      Alina Grundner  
+# MatNr 1:       12331261
+# Author 2:      David Leibold 
+# MatNr 2:       12335498
+# Author 3:      Lukas Umfahrer
+# MatNr 3:       12337160
+# File:          main.py
+# Description: 
+# Comments:    ... comments for the tutors ...
+#              ... can be multiline ...
+################################################################################
+import os
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+xfrom pathlib import Path
 from data_processor import DatasetPreprocessor
 from simple_baseline_classifier import SimpleBaselineClassifier
 from sklearn.ensemble import RandomForestClassifier

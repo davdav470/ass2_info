@@ -1,3 +1,15 @@
+################################################################################
+# Author 1:      Alina Grundner  
+# MatNr 1:       12331261
+# Author 2:      David Leibold 
+# MatNr 2:       12335498
+# Author 3:      Lukas Umfahrer
+# MatNr 3:       12337160
+# File:          data_processor.py
+# Description: the code for the class DatasetPreprocessor
+# Comments:    ... comments for the tutors ...
+#              ... can be multiline ...
+################################################################################
 import zipfile
 from pathlib import Path
 import pandas as pd
