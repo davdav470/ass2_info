@@ -1,7 +1,7 @@
 ################################################################################
-# Author 1:      Alina Grundner  
+# Author 1:      Alina Grundner
 # MatNr 1:       12331261
-# Author 2:      David Leibold 
+# Author 2:      David Leibold
 # MatNr 2:       12335498
 # Author 3:      Lukas Umfahrer
 # MatNr 3:       12337160
@@ -12,6 +12,7 @@
 ################################################################################
 import zipfile
 from pathlib import Path
+
 import pandas as pd
 
 
@@ -85,5 +86,5 @@ class DatasetPreprocessor:
         diagnosis = self.df.pop("diagnosis")
         self.df["diagnosis"] = diagnosis
 
-    def to_csv(self, csv_file_path: str):
+    def to_csv(self, csv_file_path: str) -> None:
         self.df.to_csv(csv_file_path, index=False)

@@ -1,20 +1,20 @@
 ################################################################################
-# Author 1:      Alina Grundner  
+# Author 1:      Alina Grundner
 # MatNr 1:       12331261
-# Author 2:      David Leibold 
+# Author 2:      David Leibold
 # MatNr 2:       12335498
 # Author 3:      Lukas Umfahrer
 # MatNr 3:       12337160
 # File:          main.py
-# Description: 
+# Description:
 # Comments:    ... comments for the tutors ...
 #              ... can be multiline ...
 ################################################################################
-import os
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 from pathlib import Path
+from typing import Protocol
+
+import matplotlib.pyplot as plt
+import pandas as pd
 from data_processor import DatasetPreprocessor
 from simple_baseline_classifier import SimpleBaselineClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -25,7 +25,11 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 
 
-def evaluate_model(name, y_true, y_pred, metrics_dict):
+class Predictable(Protocol):
+    def predict(self, x) -> object: ...
+
+
+def evaluate_model(name: str, y_true: pd.Series, y_pred: pd.Series, metrics_dict: dict[str, dict[str, float]]) -> None:
     # Calculates and stores the main metrics for a classifier
     acc = accuracy_score(y_true, y_pred)
     prec = precision_score(y_true, y_pred)
@@ -42,7 +46,7 @@ def evaluate_model(name, y_true, y_pred, metrics_dict):
     print(f"F1-Score : {f1:.4f}")
 
 
-def plot_metrics(metrics_dict):
+def plot_metrics(metrics_dict: dict[str, dict[str, float]]) -> None:
     # Creates bar charts for all metrics and classifiers
     models = list(metrics_dict.keys())
     metrics = list(metrics_dict[models[0]].keys())
@@ -60,7 +64,7 @@ def plot_metrics(metrics_dict):
         plt.show()
 
 
-def plot_confusion_matrices(classifiers, x_test, y_test):
+def plot_confusion_matrices(classifiers: dict[str, Predictable], x_test: pd.DataFrame, y_test: pd.Series) -> None:
     # Creates confusion matrix plots for all classifiers
     fig, axes = plt.subplots(3, 2, figsize=(12, 10))
     axes = axes.flatten()
@@ -79,7 +83,7 @@ def plot_confusion_matrices(classifiers, x_test, y_test):
     plt.show()
 
 
-def main():
+def main() -> None:
     # Set base directories and file paths
     base_dir = Path(__file__).resolve().parent
     zip_path = base_dir / "breast_cancer_wisconsin_diagnostic.zip"
@@ -102,7 +106,7 @@ def main():
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
 
     # Define classifiers
-    classifiers = {
+    classifiers: dict[str, Predictable] = {
         "Random Forest": RandomForestClassifier(random_state=42),
         "Logistic Regression": LogisticRegression(max_iter=1000),
         "SVM": SVC(),
@@ -110,7 +114,7 @@ def main():
         "Simple Baseline": SimpleBaselineClassifier(strategy="most_frequent"),
     }
 
-    metrics_dict = {}
+    metrics_dict: dict[str, dict[str, float]] = {}
 
     # Train and evaluate all classifiers
     for name, clf in classifiers.items():
