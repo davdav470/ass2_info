@@ -1,51 +1,77 @@
 import zipfile
-import os
+from pathlib import Path
 import pandas as pd
+
 
 class DatasetPreprocessor:
     def __init__(self, zip_file_path: str):
-        self.extract_dir = "temp_extracted"
+        self.extract_dir = Path("temp_extracted")
 
-        # ZIP-Datei entpacken
-        with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+        # Extract the ZIP file
+        with zipfile.ZipFile(zip_file_path, "r") as zip_ref:
             zip_ref.extractall(self.extract_dir)
-            print("Dateien im ZIP:", zip_ref.namelist())  # Debug-Ausgabe
+            print("Files in ZIP:", zip_ref.namelist())  # Debug output
 
-            # Suche nach der ersten .csv oder .data Datei
+            # Search for the first .csv or .data file
             for name in zip_ref.namelist():
-                if name.endswith('.csv') or name.endswith('.data'):
-                    self.data_file_path = os.path.join(self.extract_dir, name)
+                if name.endswith((".csv", ".data")):
+                    self.data_file_path = self.extract_dir / name
                     break
             else:
-                raise FileNotFoundError("Keine .csv oder .data Datei im ZIP gefunden.")
+                raise FileNotFoundError("No .csv or .data file found in ZIP.")
 
-        print(f"Datenpfad gesetzt: {self.data_file_path}")
+        print(f"Data path set to: {self.data_file_path}")
 
-        # Daten einlesen
+        # Read the data file
         self.df = pd.read_csv(self.data_file_path, header=None)
 
-        # Spaltennamen setzen laut Dokumentation
+        # Set column names according to documentation
         self.df.columns = [
-            "id", "diagnosis",
-            "radius_mean", "texture_mean", "perimeter_mean", "area_mean", "smoothness_mean",
-            "compactness_mean", "concavity_mean", "concave_points_mean", "symmetry_mean", "fractal_dimension_mean",
-            "radius_se", "texture_se", "perimeter_se", "area_se", "smoothness_se",
-            "compactness_se", "concavity_se", "concave_points_se", "symmetry_se", "fractal_dimension_se",
-            "radius_worst", "texture_worst", "perimeter_worst", "area_worst", "smoothness_worst",
-            "compactness_worst", "concavity_worst", "concave_points_worst", "symmetry_worst", "fractal_dimension_worst"
+            "id",
+            "diagnosis",
+            "radius_mean",
+            "texture_mean",
+            "perimeter_mean",
+            "area_mean",
+            "smoothness_mean",
+            "compactness_mean",
+            "concavity_mean",
+            "concave_points_mean",
+            "symmetry_mean",
+            "fractal_dimension_mean",
+            "radius_se",
+            "texture_se",
+            "perimeter_se",
+            "area_se",
+            "smoothness_se",
+            "compactness_se",
+            "concavity_se",
+            "concave_points_se",
+            "symmetry_se",
+            "fractal_dimension_se",
+            "radius_worst",
+            "texture_worst",
+            "perimeter_worst",
+            "area_worst",
+            "smoothness_worst",
+            "compactness_worst",
+            "concavity_worst",
+            "concave_points_worst",
+            "symmetry_worst",
+            "fractal_dimension_worst",
         ]
 
-        # Entferne die ID-Spalte, da sie keine sinnvolle Information für ML enthält
+        # Remove the ID column, as it is not useful for ML
         self.df.drop(columns=["id"], inplace=True)
 
-        # Zielvariable (diagnosis) in binäre Zahlen umwandeln: M → 1, B → 0
+        # Convert target variable (diagnosis) to binary: M → 1, B → 0
         self.df["diagnosis"] = self.df["diagnosis"].map({"M": 1, "B": 0})
         if self.df["diagnosis"].isnull().any():
-            raise ValueError("Ungültige Werte in der Spalte 'diagnosis' gefunden.")
+            raise ValueError("Invalid values found in the 'diagnosis' column.")
 
-        # diagnosis-Spalte ans Ende verschieben
+        # Move the diagnosis column to the end
         diagnosis = self.df.pop("diagnosis")
         self.df["diagnosis"] = diagnosis
-        
+
     def to_csv(self, csv_file_path: str):
         self.df.to_csv(csv_file_path, index=False)
