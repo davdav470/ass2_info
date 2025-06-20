@@ -14,7 +14,7 @@ import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-xfrom pathlib import Path
+from pathlib import Path
 from data_processor import DatasetPreprocessor
 from simple_baseline_classifier import SimpleBaselineClassifier
 from sklearn.ensemble import RandomForestClassifier
