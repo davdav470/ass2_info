@@ -24,7 +24,7 @@ def evaluate_model(name, y_true, y_pred, metrics_dict):
         "F1 Score": f1
     }
 
-    print(f"\n📈 Ergebnisse für: {name}")
+    print(f"Ergebnisse für: {name}")
     print(f"Accuracy : {acc:.4f}")
     print(f"Precision: {prec:.4f}")
     print(f"Recall   : {rec:.4f}")
@@ -68,7 +68,7 @@ def main():
     output_csv_path = os.path.join(base_dir, "dataset.csv")
 
     if not os.path.exists(zip_path):
-        raise FileNotFoundError(f"❌ ZIP-Datei nicht gefunden: {zip_path}")
+        raise FileNotFoundError(f"ZIP-Datei nicht gefunden: {zip_path}")
 
     preprocessor = DatasetPreprocessor(zip_file_path=zip_path)
     preprocessor.to_csv(csv_file_path=output_csv_path)

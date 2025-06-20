@@ -21,7 +21,7 @@ class DatasetPreprocessor:
 
         print(f"Datenpfad gesetzt: {self.data_file_path}")
 
-        # Daten einlesen (ohne Header)
+        # Daten einlesen
         self.df = pd.read_csv(self.data_file_path, header=None)
 
         # Spaltennamen setzen laut Dokumentation
